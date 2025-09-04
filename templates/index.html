@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noise Monitor Dashboard</title>
+    <style>
+        *{
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+        }
+        body{
+            background: linear-gradient(135deg,#1e3c72 0%,#2e59a9 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            
+        }
+        .mainContainer{
+            padding: 2rem;
+            width: 85%;
+            margin:auto;
+            border: 2px solid red;
+        }
+        .title{
+            width: 95%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            background-color: #c9c9c920;
+            padding:1.2rem;
+        }
+        .title h1{
+            font-size: 2.7rem;
+            text-shadow: 2px 2px rgba(0, 0, 0, 0.248);
+            color: rgb(243, 243, 243);
+
+        }
+        .title p{
+            font-size: 1.1rem;
+            color: rgb(234, 234, 234);
+            align-self: center;
+        }
+        .subContainer{
+            display: grid;
+            border: 2px solid yellow;
+            padding:1.2rem;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+        .card{
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            color: rgb(243, 243, 243);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        .card h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .whiteDot{
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgb(243, 243, 243);
+            display: inline-block;
+        }
+        .currentDb{
+            font-size: 2rem;
+        }
+        .status{
+            width: 100%;
+            height: 20px;
+            background-color: rgba(193, 193, 193, 0.41);
+            border-radius: 50px;
+        }
+        .unit{
+            margin: 10px;
+        }
+        .label{
+            margin: 10px;
+        }
+        .fillStatus{
+            width: 80%;
+            height: 100%;
+            background-color: rgb(47, 244, 47);
+            border-radius: 50px;
+        }
+        .realTimeGraph{
+            width: 100%;
+            height: 80%;
+            background-color: rgba(193, 193, 193, 0.41);
+            border-radius: 5px;
+        }
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="mainContainer">
+        <div class="title">
+            <h1>🔊 Noise Monitor Dashboard</h1>
+            <p>Real-time environmental sound level monitoring</p>
+        </div>
+        <div class="subContainer">
+            <div class="card">
+                <h3><span class="whiteDot"></span class="cardTitle">Current Noise Level</h3>
+                <div class="currentDb">
+                    <h1 id="currentDb">85.7</h1>
+                </div>
+                <div class="unit">dB</div>
+                <div class="status">
+                    <div class="fillStatus"></div>
+                </div>
+                <div class="label"><p>Hight</p></div>
+            </div>
+            <div class="card">
+                <h3><span class="whiteDot"></span class="cardTitle">Real-Time Graph</h3>
+                <div class="realTimeGraph"></div>
+            </div>
+            <div class="card">
+                <h3><span class="whiteDot"></span class="cardTitle">City HeatMap</h3>
+                <div class="currentDb">
+                    <h1>85.7</h1>
+                </div>
+                <div class="unit">dB</div>
+                <div class="status"></div>
+                <div class="label"><p>Hight</p></div>
+            </div>
+            <div class="card">
+                <h3><span class="whiteDot"></span>Statistics</h3>
+                <div class="statistics">
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Average</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Peak</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Minimum</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Alerts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <h3><span class="whiteDot"></span>Controls</h3>
+            <button id="startTimer">Start</button>
+            <button id="stopTimer">Stop</button>
+        </div>
+    </div>
+</body>
+<script>
+    let startBtn=document.getElementById("startTimer");
+    let stopTimer=document.getElementById("stopTimer");
+    let currentDb=document.getElementById('currentDb');
+    let timerId;
+    function fetchNoise(){
+        fetch('/api/currentNoise')
+        .then(response => response.json())
+        .then(data=>{
+            currentDb.innerHTML=data.db.toFixed(2);
+        })
+    }
+    startBtn.addEventListener('click',function(){
+        timerId=setInterval(fetchNoise,1000);
+    });
+    stopTimer.addEventListener('click',function(){
+        clearInterval(timerId);
+    })
+</script>
+</html>
